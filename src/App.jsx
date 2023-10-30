@@ -92,25 +92,30 @@ export default function App() {
         localStorage.setItem('meus_contactos', JSON.stringify(listadecontacto))
     }, [listadecontacto])
 
+    const LimparContacto = ()=>{
+        setListadecontacto([])
+    }
+
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold">Minha Lista de Contatos</h1>
             <hr className="my-4 border-t border-gray-300" />
 
-            <div className="mb-4">
-                <label htmlFor="nome" className="block">Nome:</label>
-                <input type="text" id="nome" ref={inputNome} onChange={definirNome} value={contacto.nome} placeholder="Introduza o seu nome" className="w-full px-3 py-2 border rounded" />
-            </div>
+<div className="mb-4">
+    <label htmlFor="nome" className="text-gray-600 block mb-2 text-lg">Nome:</label>
+    <input type="text" id="nome" ref={inputNome} onChange={definirNome} value={contacto.nome} placeholder="Introduza o seu nome" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600" />
+</div>
 
-            <div className="mb-4">
-                <label htmlFor="telefone" className="block">Telefone:</label>
-                <input type="number" id="telefone" ref={inputNumero} onChange={definirNumero} onKeyUp={enter} value={contacto.telefone} placeholder="Introduza o seu número" className="w-full px-3 py-2 border rounded" />
-            </div>
+<div className="mb-4">
+    <label htmlFor="telefone" className="text-gray-600 block mb-2 text-lg">Telefone:</label>
+    <input type="number" id="telefone" ref={inputNumero} onChange={definirNumero} onKeyUp={enter} value={contacto.telefone} placeholder="Introduza o seu número" className="w-full py-2 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 text-gray-700" />
+</div>
 
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={AdicionarContacto}>Adicionar Contato</button>
-            <hr className="my-4 border-t border-gray-300" />
-            <h3 className="text-xl">Lista de Contatos:</h3>
-            <ListadeContactos Listadecontactos={listadecontacto} />
+<button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg mr-2" onClick={AdicionarContacto}>Adicionar Contato</button>
+<button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg" onClick={LimparContacto}>Limpar lista</button>
+<hr className="my-4 border-t border-gray-300" />
+<h3 className="text-2xl font-bold">Lista de Contatos:</h3>
+<ListadeContactos Listadecontactos={listadecontacto} />
         </div>
 
     )
