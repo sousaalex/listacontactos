@@ -1,7 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ListadeContactos from "./Componente/ListadeContactos";
-import { stringify } from "uuid";
-
 export default function App() {
 
     //state-----------------------------------------
@@ -35,11 +33,9 @@ export default function App() {
     function AdicionarContacto() {
 
 
-        if (contacto.nome === '' || contacto.telefone === '') return(
+        if (contacto.nome === '' || contacto.telefone === '') return (
             alert('Preencha o campo em branco')
         )
-
-      
 
 
         //verificar se o contact ja existe
@@ -70,38 +66,52 @@ export default function App() {
 
     }
 
-    function enter (event){
-       
-       if(event.code === 'NumpadEnter' ){
-        
-        return  AdicionarContacto()
-       }
-        
-       if(event.code === 'Enter' ){
-        
-        return  AdicionarContacto()
-       }
+    function enter(event) {
+
+        if (event.code === 'NumpadEnter') {
+
+            return AdicionarContacto()
+        }
+
+        if (event.code === 'Enter') {
+
+            return AdicionarContacto()
+        }
     }
+
+    // local storage
+    //actualizar a lista de contactos no local storage
+    //procurrar se existe um item e se exeste carrega para a minha lista de contactos
+    useEffect(() => { 
+        if(localStorage.getItem('meus_contactos')!== null){
+            setListadecontacto(JSON.parse(localStorage.getItem('meus_contactos')))
+        }
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem('meus_contactos', JSON.stringify(listadecontacto))
+    }, [listadecontacto])
+
     return (
-       <div className="container mx-auto p-4">
-    <h1 className="text-2xl font-bold">Minha Lista de Contatos</h1>
-    <hr className="my-4 border-t border-gray-300"/>
+        <div className="container mx-auto p-4">
+            <h1 className="text-2xl font-bold">Minha Lista de Contatos</h1>
+            <hr className="my-4 border-t border-gray-300" />
 
-    <div className="mb-4">
-        <label htmlFor="nome" className="block">Nome:</label>
-        <input type="text" id="nome" ref={inputNome} onChange={definirNome} value={contacto.nome} placeholder="Introduza o seu nome" className="w-full px-3 py-2 border rounded"/>
-    </div>
+            <div className="mb-4">
+                <label htmlFor="nome" className="block">Nome:</label>
+                <input type="text" id="nome" ref={inputNome} onChange={definirNome} value={contacto.nome} placeholder="Introduza o seu nome" className="w-full px-3 py-2 border rounded" />
+            </div>
 
-    <div className="mb-4">
-        <label htmlFor="telefone" className="block">Telefone:</label>
-        <input type="text" id="telefone" ref={inputNumero} onChange={definirNumero} onKeyUp={enter} value={contacto.telefone} placeholder="Introduza o seu número" className="w-full px-3 py-2 border rounded"/>
-    </div>
-    
-    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={AdicionarContacto}>Adicionar Contato</button>
-    <hr className="my-4 border-t border-gray-300"/>
-    <h3 className="text-xl">Lista de Contatos:</h3>
-    <ListadeContactos Listadecontactos={listadecontacto} />
-</div>
+            <div className="mb-4">
+                <label htmlFor="telefone" className="block">Telefone:</label>
+                <input type="number" id="telefone" ref={inputNumero} onChange={definirNumero} onKeyUp={enter} value={contacto.telefone} placeholder="Introduza o seu número" className="w-full px-3 py-2 border rounded" />
+            </div>
+
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={AdicionarContacto}>Adicionar Contato</button>
+            <hr className="my-4 border-t border-gray-300" />
+            <h3 className="text-xl">Lista de Contatos:</h3>
+            <ListadeContactos Listadecontactos={listadecontacto} />
+        </div>
 
     )
 }
